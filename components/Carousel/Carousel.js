@@ -19,7 +19,7 @@
     <div class="right-button"> > </div>
   </div>
 */
-let slideIndex = 1;
+let slideIndex = 0;
 
 const Carousel = () => {
   const carousel = document.createElement("div");
@@ -43,6 +43,24 @@ const Carousel = () => {
   leftButton.classList.add("left-button");
   rightButton.classList.add("right-button");
 
+  leftButton.addEventListener("click", () => {
+    if (slideIndex > 0) {
+      slideIndex--;
+    } else {
+      slideIndex = images.length - 1;
+    }
+    showImage("left");
+  });
+
+  rightButton.addEventListener("click", () => {
+    if (slideIndex < images.length - 1) {
+      slideIndex++;
+    } else {
+      slideIndex = 0;
+    }
+    showImage("right");
+  });
+
   carousel.appendChild(leftButton);
   imgElements.forEach(element => carousel.appendChild(element));
   carousel.appendChild(rightButton);
@@ -50,6 +68,14 @@ const Carousel = () => {
   return carousel;
 };
 
-const showImage = () => {};
+const showImage = direction => {
+  const carousel = document.querySelectorAll(".carousel img");
+  carousel.forEach(img => {
+    img.style.display = "none";
+    // img.style.transition = `${direction} 1s`;
+  });
+  carousel[slideIndex].style.display = "inherit";
+};
 
 document.querySelector(".carousel-container").appendChild(Carousel());
+showImage();
